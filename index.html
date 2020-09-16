@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>VueJs</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12"></script>
+</head>
+<body>
+    <header>    
+        <header><h1>Header</h1></header>
+        <div class="list-blog">
+            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Id ab autem, dignissimos tempore temporibus quaerat, quidem deleniti illo incidunt recusandae omnis nulla excepturi maiores. Nemo inventore sequi maiores eveniet quidem.</p>
+        </div>
+        <div id="app">
+            <div>
+                <p>{{ title }}</p>
+            <!-- Ràng buộc giữa DB và attribute của html-->
+            <a v-bind:href='url' v-bind:target="target">{{ title }}</a>
+            <!-- Template Syntax -->
+            </div>
+            <div>
+                <p>Các trường hợp sử dụng đôi cặp ngoặc nhọn</p>
+                <p>{{ check ? 'Ve ben trai' : 've ben phai' }}</p>
+                <p>{{ formatPrice() }}</p>
+            </div>
+        </div>
+        <footer><h1>Footer</h1></footer>
+        <div id="example-1">
+            <button v-on:click="counter += 1">Add 1</button>
+            <p>The button above has been clicked {{ counter }} times.</p>
+        </div>
+        <div>
+            <button v-on:click="warn('Form cannot be submitted yet.', $event)">Submit</button>
+        </div>
+    </header>
+</body>
+    <script src="main.js"></script>
+</html>
