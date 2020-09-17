@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+</head>
+<body>
+    <div id="v_model">
+        <!--khi nhập vào ô thì text được in ra đồng thời ở dòng chữ bên dưới-->
+        <input v-model="message" placeholder="edit me">
+        <p>Message is: {{message}}</p>
+        <br>
+
+        <!--khi nhập vào ô, thông tin nhập sẽ hiện ra ở dòng dưới dòng chữ-->
+        <span>Multiline message is:</span>
+        <p style="white-space:pre-line;">{{M_message}}</p>
+        <textarea v-model="M_message" placeholder="add multiple lines"></textarea>
+
+        <!--khi tích vào ô thì chữ false chuyển thành true-->
+        <br>
+        <input type="checkbox" id="checkbox" v-model="a_checked"><label for="checkbox">{{a_checked}}</label>
+
+        <!--khi tích vào ô ứng với tên nào thì tên đó sẽ hiện trong list, nếu bỏ tích thì tên sẽ biến mất.-->
+        <br>
+        <br>
+        <input type="checkbox" id="jack" value="Jack" v-model="checkedNames">
+        <label for="jack">Jack</label>
+        <input type="checkbox" id="john" value="John" v-model="checkedNames">
+        <label for="john">John</label>
+        <input type="checkbox" id="mike" value="Mike" v-model="checkedNames">
+        <label for="mike">Mike</label>
+        <br>
+        <span>Checked names: {{ checkedNames }}</span>
+
+        <!--Khi nhấn vào dấu tròn thì -->
+        <br>
+        <br>
+        <input type="radio" value="One" v-model="checked_Radio">
+        <label>One</label>
+        <input type="radio" value="Two" v-model="checked_Radio">
+        <label>Two</label>
+        <br>
+        <p>Picked: {{ checked_Radio }} </p>
+
+        <!--Khi lựa chọn một option thì thông tin đã chọn sẽ hiển thị trên dòng select-->
+        <br>
+        <select v-model="selected">
+            <option disabled value="">please select one</option>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <span>Select:{{ selected }} </span>
+
+        <!--tất cả các lựa chọn được hiển trong một khung theo một list từ trên xuống, khi ta chọn vào một dòng
+        thì dòng đó sẽ hiển thị ở dòng text phía dưới-->
+        <br>
+        <br>
+        <select v-model="selected2" multiple>
+            <option>A</option>
+            <!-- <option value="D">A</option> -->
+            <option>B</option>
+            <option>C</option>
+        </select>
+        <br>
+        <span>Selected: {{ selected2 }}</span>
+        
+        <br>
+        <br>
+        <select v-model="selected">
+            <option v-for="option in options" v-bind:value="option.value">
+              {{ option.text }}
+            </option>
+          </select>
+          <span>Selected: {{ selected }}</span>
+    </div>
+</body>
+<script>
+    var v_model= new Vue({
+        el: "#v_model",
+        data: {
+            message:'dđfd',
+            M_message:'',
+            a_checked: false,
+            checkedNames: [],//kiểu dữ liệu list,
+            checked_Radio: '',
+            selected:'jD',
+            selected2:[],
+            selected: 'A',
+            options: [
+            { text: 'One', value: 'A' },
+            { text: 'Two', value: 'B' },
+            { text: 'Three', value: 'C' }
+            ]
+        }
+    })
+</script>
+</html>
