@@ -7,7 +7,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
 </head>
 <body>
-    <div id="v_model">
+    <div id="vModel">
         <!--khi nhập vào ô thì text được in ra đồng thời ở dòng chữ bên dưới-->
         <input v-model="message" placeholder="edit me">
         <p>Message is: {{message}}</p>
@@ -15,12 +15,12 @@
 
         <!--khi nhập vào ô, thông tin nhập sẽ hiện ra ở dòng dưới dòng chữ-->
         <span>Multiline message is:</span>
-        <p style="white-space:pre-line;">{{M_message}}</p>
-        <textarea v-model="M_message" placeholder="add multiple lines"></textarea>
+        <p style="white-space:pre-line;">{{multipleMessage}}</p>
+        <textarea v-model="multipleMessage" placeholder="add multiple lines"></textarea>
 
         <!--khi tích vào ô thì chữ false chuyển thành true-->
         <br>
-        <input type="checkbox" id="checkbox" v-model="a_checked"><label for="checkbox">{{a_checked}}</label>
+        <input type="checkbox" id="checkbox" v-model="aChecked"><label for="checkbox">{{aChecked}}</label>
 
         <!--khi tích vào ô ứng với tên nào thì tên đó sẽ hiện trong list, nếu bỏ tích thì tên sẽ biến mất.-->
         <br>
@@ -37,12 +37,12 @@
         <!--Khi nhấn vào dấu tròn thì -->
         <br>
         <br>
-        <input type="radio" value="One" v-model="checked_Radio">
+        <input type="radio" value="One" v-model="checkedRadio">
         <label>One</label>
-        <input type="radio" value="Two" v-model="checked_Radio">
+        <input type="radio" value="Two" v-model="checkedRadio">
         <label>Two</label>
         <br>
-        <p>Picked: {{ checked_Radio }} </p>
+        <p>Picked: {{ checkedRadio }} </p>
 
         <!--Khi lựa chọn một option thì thông tin đã chọn sẽ hiển thị trên dòng select-->
         <br>
@@ -67,34 +67,133 @@
         <br>
         <span>Selected: {{ selected2 }}</span>
         
+        <!--khi chọn một lựa chọn, một nội dung khác sẽ hiện trên dòng text-->
         <br>
         <br>
-        <select v-model="selected">
-            <option v-for="option in options" v-bind:value="option.value">
+        <select v-model="selected3">
+            <option v-for="option in options" v-bind:value="option.value"><!-- v-bind: có thể viết tắt là : -->
               {{ option.text }}
             </option>
-          </select>
-          <span>Selected: {{ selected }}</span>
+        </select>
+        <span>Selected: {{ selected3 }}</span>
+    </div>
+    <!-- Class and style binding -->
+    <!-- Object Syntax -->
+    <br>
+    <br>
+    <h1>class and Style binding</h1>
+<!--cách 1-->
+    <!-- <div
+    class="static"
+    v-bind:class="{ active: isActive, 'text-danger': hasError }"
+    ></div>  -->
+<!--cách 2-->
+    <!-- <div class="static" v-bind:class="classObject"></div> -->
+<!--cách 3, binding to a computed property-->
+    
+    <div class="static" v-bind:class="classObject">
+        <input type="checkbox" id="checkbox" v-model="isChecked" @click='changeColor'><label for="checkbox">{{isChecked}}</label>
+<!-- v-bind:style -->
+<!--cách 1-->
+        <!-- <div v-bind:style="{ color: activeColor, fontSize: fontSize + 'px' }"></div> -->
+<!--cách 2 ràng buộc style object một cách trực tiếp-->
+        <div v-bind:style="styleObject"></div>
+        <!-- ràng buộc một array style -->
+        <div v-bind:style="[baseStyles, overridingStyles]">anbxhd</div>
     </div>
 </body>
 <script>
-    var v_model= new Vue({
-        el: "#v_model",
+// V-mode:
+    var vModel = new Vue({
+        el: "#vModel",
         data: {
             message:'dđfd',
-            M_message:'',
-            a_checked: false,
+            //tên biến đạt theo aBc
+            multipleMessage:'',
+            aChecked: false,
             checkedNames: [],//kiểu dữ liệu list,
-            checked_Radio: '',
+            checkedRadio: '',
             selected:'jD',
             selected2:[],
-            selected: 'A',
+            selected3: 'A',
             options: [
             { text: 'One', value: 'A' },
             { text: 'Two', value: 'B' },
             { text: 'Three', value: 'C' }
-            ]
+            ],
         }
     })
+//class and style bindings
+// Khái niệm classObject:
+//Theo ý hiểu:
+//      - là cách để chúng ta có thể khai báo một giá trị dict
+//      - kết quả hiện thị là tên class và 
+    var bindClass = new Vue({
+        el: ".static",
+// cách 1: giá trị của classObject được viết ở thẻ div
+        // data: {
+        //     isActive: false,
+        //     hasError: false,
+        // }
+// Cách 2: classObject được viết ở var
+        // data:{
+        //     classObject: {
+        //         active: true,
+        //         'text-danger': false
+        //     }
+        // }
+// Cách 3: bind to a computed property
+        data:{
+            isChecked: false,
+            isActive: true,
+            error: null,
+            //Object Syntax, ở đây ta biết đến v-bind:style
+            // Cách 1: ràng buộc gián tiếp qua giá trị của style
+                //     data: {
+                //     activeColor: 'red',
+                //     fontSize: 30
+                //     }
+                // })
+            // Cách 2: ràng buộc trực tiếp bằng đối tượng style
+            styleObject:{
+                color: 'red',
+                fontSize: '13px'
+            },
+            baseStyles: {
+                color: 'red',
+                fontSize: '13px'
+            },
+            overridingStyles: {
+                color: 'red',
+            }
+        },
+        computed: {
+            classObject: function(){
+                return{
+                    //active và 'text-danger' giá trị trả ra
+                    active: this.isActive && !this.error,
+                    'text-danger': this.error && this.error.type == 'fatal'
+                }
+            }
+        },
+        methods: {
+            changeColor() {
+                if (this.isChecked) {
+                    this.overridingStyles.color = 'green'
+                } else {
+                    this.overridingStyles.color = 'red'
+                }
+            }
+        }
+//Object Syntax, ở đây ta biết đến v-bind:style
+// Cách 1: ràng buộc gián tiếp qua giá trị của style
+    //     data: {
+    //     activeColor: 'red',
+    //     fontSize: 30
+    //     }
+    // })
+// Cách 2: ràng buộc trực tiếp bằng đối tượng style
+    })
+    //Array Syntax
 </script>
 </html>
