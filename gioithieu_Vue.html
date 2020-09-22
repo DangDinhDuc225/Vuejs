@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+</head>
+<body>
+<!-- v-bind và thuộc tính title của html -->
+    <div id="app-2">
+        <span v-bind:title="message">
+            Rê chuột lên đây một vài giây để xem thuộc tính 'title' được bind!
+        </span>
+        <input v-model="dataInput">
+    </div>
+<!-- v-if -->
+    <div id="app-3">
+        <span v-if="seen">Thoắt ẩn thoắt hiện</span>
+    </div>
+<!-- v-for -->
+    <div id="app-4">
+        <ol>
+            <li v-for="todo in todos">
+            {{ todo.text }}
+            </li>
+        </ol>
+    </div>
+<!-- Xử lý thông tin đầu vào của người dùng - v-on -->
+    <div id="app-5">
+        <p>{{ message }}</p>
+        <button v-on:click="reverseMessage">Reverse Message</button>
+    </div>
+<!-- Ràng buộc hai chiều -->
+    <div id="app-6">
+        <p>{{ message }}</p>
+        <input v-model="message">
+    </div>
+<!-- Biên soạn với các component -->
+    <div id="app-7">
+        <p>Những thứ họ mua:</p>
+        <ol>
+            <!--   
+              Mỗi đối tượng todo sẽ có một thuộc tính "key".  
+             -->
+            <todo-item
+            v-for="item in groceryList"
+            v-bind:todo="item">
+            </todo-item>
+        </ol>
+    </div>
+    <div id="app">
+        <p>{{ foo }}</p>
+        <!-- foo sẽ không được cập nhật! -->
+        <button @click="foo = 'baz'">Cập nhật đi chứ</button>
+    </div>
+    <div id="example">
+        <p>Thông điệp ban đầu: "{{ message }}"</p>
+        <p>Thông điệp bị đảo ngược bằng tính toán (computed): "{{ reversedMessage }}"</p>
+    </div>
+<!-- Render theo điều kiện -->
+    <div id="vIf">
+        <h1 v-if="ok">Mọi việc ổn cả</h1>
+        <h1 v-else>Có gì đó sai sai</h1>
+        <input v-model="type">
+        <div v-if="type === 'A'">A</div>
+        <div v-else-if="type === 'B'">B</div>
+        <div v-else-if="type === 'C'">C</div>
+        <div v-else-if="type === 'D'">D</div>
+        <div v-else>Chiến Sĩ không thể nhớ nổi</div>
+    </div>
+</body>
+<script>
+    var app2 = new Vue({
+        el: "#app-2",
+        data: {
+            message: 'Bạn đã mở trang này vào ' + new Date().toLocaleString(),
+            dataInput:'',
+        }
+    })
+    var app3 = new Vue({
+        el: '#app-3',
+        data: {
+            seen: false
+        }
+    })
+    var app4 = new Vue({
+        el: '#app-4',
+        data: {
+            todos: [
+                { text: 'học JavaScript' },
+                { text: 'học Vue' },
+                { text: 'Xây dựng cái gì đó hay ho' }
+            ]
+        }
+    })
+    var app5 = new Vue({
+        el: '#app-5',
+        data: {
+            message:'qua lại khách chờ sông lặng sóng'
+        },
+        methods:{
+            reverseMessage: function () {
+                this.message = this.message.split(' ').reverse().join(' ')
+            }
+        }
+    })
+    var app6 = new Vue({
+        el: '#app-6',
+        data: {
+            message: 'Hãy sửa thông điệp này'
+        }
+    })
+// Biên soạn với các component
+
+// Định nghĩa một component todo-item
+    Vue.component('todo-item', {
+        //Ở đây chúng ta khai báo cho component
+        // nhận một prop (có thể hiểu là một thuộc tính tùy biến)
+        // có tên là "todo".
+        props: ['todo'],
+        template: '<li>{{ todo.text }}</li>'
+    })
+    var app7 = new Vue({
+        el: '#app-7',
+        data: {
+            groceryList: [
+                { id: 0, text: 'Cà pháo'},
+                { id: 1, text: 'Mắm tôm'},
+                { id: 2, text: 'Miễn ăn được là được'}
+            ]
+        }
+    })
+    var obj = {
+        foo: 'bar'
+    }
+
+    Object.freeze(obj)//ngăn không cho những thuộc tính sẵn có bị chỉnh sửa
+    // => hệ thống reactivity không thể theo dõi các thay đổi xảy ra
+
+    new Vue({
+        el: '#app',
+        data: obj
+    })
+    var vm = new Vue({
+        el: '#example',
+        data: {
+            message: 'người đông bến đợi thuyền xuôi ngược'
+        },
+        computed: {
+            reversedMessage: function() {
+                return this.message.split(' ').reverse().join(' ')
+            }
+        }
+    })
+    var vIff = new Vue({
+        el: '#vIf',
+        data:{
+            ok:true,
+            type:'A'
+        }
+    })
+</script>
+</html>
